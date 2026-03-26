@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase 登入系統</title>
+</head>
+<body>
+
+<h2>🔐 Firebase 登入系統</h2>
+
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="密碼">
+
+<button onclick="register()">註冊</button>
+<button onclick="login()">登入</button>
+
+<p id="msg"></p>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+
+<script>
+  // 👉 把這裡換成你的 Firebase 設定
+  const firebaseConfig = {
+    apiKey: "你的APIKEY",
+    authDomain: "你的DOMAIN",
+    projectId: "你的ID",
+  };
+
+  // 初始化
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function register() {
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, pass)
+      .then(() => show("✅ 註冊成功"))
+      .catch(e => show(e.message));
+  }
+
+  function login() {
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, pass)
+      .then(() => show("🎉 登入成功"))
+      .catch(e => show("❌ " + e.message));
+  }
+
+  function show(msg) {
+    document.getElementById("msg").innerText = msg;
+  }
+</script>
+
+</body>
+</html>
